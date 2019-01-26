@@ -53,4 +53,5 @@ async function filesToCommands(masterFilePath, commandsFilePath, callback) {
   }
 }
 
-module.exports = filesToCommands;
+module.exports.filesToCommands = filesToCommands;
+module.exports.commandsFromFile = doCommands;
