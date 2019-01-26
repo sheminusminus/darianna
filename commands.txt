@@ -1,0 +1,2 @@
+cp ./package.json ./package2.json
+cp ./package2.json ./package3.json
