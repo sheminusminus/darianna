@@ -6,7 +6,7 @@ const { exec } = require('child_process');
 
 // const envVariables = 'ComSpec=/usr/local/bin/asdfasdf.exe';
 
-async function filesToCommands(masterFilePath) {
+async function filesToCommands(masterFilePath, callback) {
   // read in text file at masterFilePath
   await fs.readFile(masterFilePath, 'utf8', async (err, fileData) => {
     if (err) console.log(err); // handle errors?
@@ -25,12 +25,18 @@ async function filesToCommands(masterFilePath) {
             const lines = data.split('\n').filter(line => line.length > 0);
 
             // for each line in the file...
-            await lines.forEach(async (l) => {
+            await lines.forEach(async (l, index) => {
               // treat it as a command
               // const cmdLine = `${envVariables} ${l}`; // if setting env
 
               // EXECUTE HIM
-              await exec(cmdLine);
+              await exec(l);
+
+              // the last command just finished...
+              if (index === lines.length - 1) {
+                // if we have a callback... call it!
+                if (callback && typeof callback === 'function') callback();
+              }
             });
           }
         });
